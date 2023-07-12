@@ -14,11 +14,23 @@ from datetime import datetime
 class BaseModel(object):
     """class for all other classes to inherit from."""
 
-    def __init__(self):
-        """method to instantiate instance of BaseModel"""
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = self.created_at
+    def __init__(self, *args, **kwargs):
+        """method to instantiate instance of BaseModel
+
+        Args:
+            args: not used
+            kwargs: New key/value pairs of attributes.
+        """
+        if kwargs:
+            for k, v in kwargs.items():
+                if k != '__class__':
+                    setattr(self, k, v)
+            self.created_at = datetime.fromisoformat(self.created_at)
+            self.updated_at = datetime.fromisoformat(self.updated_at)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = self.created_at
 
     def __str__(self):
         """Returns a string representation of the object
