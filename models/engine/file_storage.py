@@ -26,22 +26,23 @@ class FileStorage(object):
         Returns:
             dict.
         """
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """sets obj in __objects
         Args:
             obj (object): an object to be used.
         """
-        self.__objects[f'{type(obj).__name__}.{obj.id}'] = obj.to_dict()
+        FileStorage.__objects[f'{type(obj).__name__}.{obj.id}'] = obj
 
     def save(self):
         """serializes __objects to the JSON file"""
-        with open(self.__file_path, 'w') as file:
-            file.write(json.dumps(self.__objects))
+        with open(FileStorage.__file_path, 'w') as file:
+            file.write(json.dumps(dict([(k, v.to_dict()) for k, v
+                                        in FileStorage.__objects.items()])))
 
     def reload(self):
         """deserializes the JSON file to __objects """
-        if path.exists(self.__file_path):
-            with open(self.__file_path) as file:
-                self.__objects = json.loads(file.read())
+        if path.exists(FileStorage.__file_path):
+            with open(FileStorage.__file_path) as file:
+                FileStorage.__objects = json.loads(file.read())
