@@ -146,7 +146,8 @@ class HBNBCommand(cmd.Cmd):
             if len(attrs) > 1:
                 attrs[1] = attrs[1][1:-1]
         methods = {'all': self.do_all,
-                   'count': self.do_count}
+                   'count': self.do_count,
+                   'show': self.do_show}
         for k, v in methods.items():
             if args[1][:len(k)] == k:
                 v(args[0] + ' ' + ' '.join(attrs))
