@@ -9,6 +9,7 @@ Example:
 
 import json
 from os import path
+from models.base_model import BaseModel
 
 
 class FileStorage(object):
@@ -16,6 +17,7 @@ class FileStorage(object):
 
     __file_path = 'file.json'
     __objects = {}
+    classes = {'BaseModel': BaseModel}
 
     def __init__(self):
         """method to instantiate instance of FileStorage"""
@@ -42,7 +44,10 @@ class FileStorage(object):
                                         in FileStorage.__objects.items()])))
 
     def reload(self):
-        """deserializes the JSON file to __objects """
+        """deserializes the JSON file to __objects"""
         if path.exists(FileStorage.__file_path):
             with open(FileStorage.__file_path) as file:
                 FileStorage.__objects = json.loads(file.read())
+                for k, v in FileStorage.__objects.copy().items():
+                    FileStorage.__objects[k] =\
+                            FileStorage.classes[v['__class__']](**v)
