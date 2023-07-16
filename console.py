@@ -2,6 +2,7 @@
 """contains the entry point of the command interpreter"""
 
 import cmd
+import re
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -124,14 +125,31 @@ class HBNBCommand(cmd.Cmd):
             setattr(storage.all()[args[0] + '.' + args[1]], args[2], args[3])
             storage.save()
 
+    def do_count(self, line):
+        """retrieve the number of instances of a class
+        """
+        arg = line.strip()
+        count = 0
+        for v in storage.all().values():
+            if arg == v.__class__.__name__:
+                count += 1
+        print(count)
+
     def default(self, line):
         """called on input line when command prefix is not recognized.
         """
         args = line.split('.')
-        methods = {'all': self.do_all}
+        command = args[1].split('(')[0]
+        attrs = args[1].split('(')[1][:-1].replace(',', '').split()
+        if attrs:
+            attrs[0] = attrs[0][1:-1]
+            if len(attrs) > 1:
+                attrs[1] = attrs[1][1:-1]
+        methods = {'all': self.do_all,
+                   'count': self.do_count}
         for k, v in methods.items():
             if args[1][:len(k)] == k:
-                v(args[0])
+                v(args[0] + ' ' + ' '.join(attrs))
 
 
 if __name__ == '__main__':
