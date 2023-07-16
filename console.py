@@ -124,6 +124,15 @@ class HBNBCommand(cmd.Cmd):
             setattr(storage.all()[args[0] + '.' + args[1]], args[2], args[3])
             storage.save()
 
+    def default(self, line):
+        """called on input line when command prefix is not recognized.
+        """
+        args = line.split('.')
+        methods = {'all': self.do_all}
+        for k, v in methods.items():
+            if args[1][:len(k)] == k:
+                v(args[0])
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
