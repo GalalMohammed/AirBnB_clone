@@ -10,6 +10,7 @@ Example:
 import json
 from os import path
 from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage(object):
@@ -17,7 +18,8 @@ class FileStorage(object):
 
     __file_path = 'file.json'
     __objects = {}
-    classes = {'BaseModel': BaseModel}
+    classes = {'BaseModel': BaseModel,
+               'User': User}
 
     def __init__(self):
         """method to instantiate instance of FileStorage"""
