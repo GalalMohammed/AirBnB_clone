@@ -87,6 +87,7 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, line):
         """Prints all string representation of all instances
         """
+        line = line.strip()
         if line and line not in HBNBCommand.classes:
             print("** class doesn't exist **")
         else:
