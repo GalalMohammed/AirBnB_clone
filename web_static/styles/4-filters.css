@@ -1,0 +1,26 @@
+.container .filter {
+    position: relative;
+    height: 70px;
+    width: 100%;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+}
+
+.container .filter button {
+    position: absolute;
+    font-size: 18px;
+    background-color: #ff5a5f;
+    color: white;
+    height: 48px;
+    width: 20%;
+    border-style: none;
+    border-radius: 4px;
+    line-height: 48px;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.container .filter button:hover {
+    opacity: 90%;
+}
